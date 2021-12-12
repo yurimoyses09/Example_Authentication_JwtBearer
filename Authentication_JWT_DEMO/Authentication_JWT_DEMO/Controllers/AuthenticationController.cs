@@ -1,17 +1,14 @@
 ﻿using Authentication_JWT_DEMO.Models;
 using Authentication_JWT_DEMO.Services.Interfaces;
+using Authentication_JWT_DEMO.Services.Service;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Authentication_JWT_DEMO.Controllers
 {
     [Route("auth/[controller]")]
     [ApiController]
-    public class AuthenticationController : ControllerBase
+    public class AuthenticationController : Controller
     {
         private readonly IAuthenticationService _authenticateService;
         public AuthenticationController(IAuthenticationService authenticationService)
@@ -19,17 +16,23 @@ namespace Authentication_JWT_DEMO.Controllers
             _authenticateService = authenticationService;
         }
 
-
         [HttpPost]
+        [Route("Post")]
         public IActionResult Post([FromBody] User model)
         {
-            var user = _authenticateService.Authenticate(model.UserName, model.Password);
+            try
+            {
+                var user = _authenticateService.Authenticate(model.UserName, model.Password);
 
-            if (user == null)
-                return BadRequest(new { message = "User or Password is incorrect" });
+                if (user == null)
+                    return BadRequest(new { message = "User or Password is incorrect" });
 
-            return Ok(user);
+                return Ok(user);
 
+            } catch (Exception ex) 
+            {
+                return BadRequest(new { message = ex.Message });
+            }
         }
     }
 }

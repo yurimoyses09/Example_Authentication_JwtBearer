@@ -1,9 +1,11 @@
 ﻿using Authentication_JWT_DEMO.Models;
 using Authentication_JWT_DEMO.Services.Interfaces;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -13,15 +15,15 @@ namespace Authentication_JWT_DEMO.Services.Service
 {
     public class AuthenticationService : IAuthenticationService
     {
-        private readonly AppSettings _appSettings;
-        public AuthenticationService(IOptions<AppSettings> appSettings)
+        private readonly IConfiguration _configuration;
+        public AuthenticationService(IConfiguration configuration) 
         {
-            _appSettings = appSettings.Value;
+            _configuration = configuration;
         }
 
         private readonly List<User> users = new List<User>()
         {
-            new User{ UserId= 1, FirstName="Yuri", LastName="Moyses", Password="1234", UserName="yuri_moyses"}
+            new User{ UserId= 1, FirstName="Yuri", LastName="Moyses", Password="12345", UserName="YuriMoyses"}
         };
 
         public User Authenticate(string name, string password)
@@ -31,7 +33,7 @@ namespace Authentication_JWT_DEMO.Services.Service
             if (user == null) return null;
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(_appSettings.SecretKey);
+            var key = Encoding.ASCII.GetBytes(_configuration.GetSection("AppSettings").GetSection("SecretKey").Value);
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]

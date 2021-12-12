@@ -8,11 +8,11 @@ namespace Authentication_JWT_DEMO.Models
     public class User
     {
         [JsonProperty("id")]
-        
         public int UserId { get; set; }
-        [JsonProperty("firtname")]
         
+        [JsonProperty("firtname")]
         public string FirstName { get; set; }
+        
         [JsonProperty("lastname")]
         public string LastName { get; set; }
         

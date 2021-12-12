@@ -17,11 +17,19 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Authentication_JWT_DEMO": {
+    "Test_PostMan_JWT_DEMO": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
       "applicationUrl": "http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Test_Swagger_JWT_DEMO": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "http://localhost:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
